@@ -1,0 +1,29 @@
+# Ignore build output
+
+.next/
+
+
+
+# Ignore node_modules
+
+node_modules/
+
+
+
+# Ignore .env file (if you have sensitive environment variables)
+
+.env
+
+
+
+# Ignore temporary files
+
+*.log
+
+*.swp
+
+
+
+# Ignore specific files (if needed)
+
+my-secret-file.json 

@@ -281,7 +281,9 @@ export default function SpacingGrid({ PollutionData, aqiData }) {
                       <h1
                         className={`text-8xl md:text-8xl font-extrabold ${textColor}`}
                       >
-                        {Math.ceil(pollutant.value)}
+                        {pollutant.name !== "CO"
+                          ? Math.ceil(pollutant.value)
+                          : pollutant.value}
                       </h1>
                       {(pollutant.name === "PM2.5" ||
                         pollutant.name === "PM10" ||

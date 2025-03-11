@@ -246,7 +246,7 @@ export default function SpacingGrid({ PollutionData, aqiData }) {
                       pollutant.name === "Humid" ? (
                         <h1 className="pl-1 text-3xl md:text-4xl"> </h1>
                       ) : (
-                        <h1 className="pl-2 font-extrabold text-8xl md:text-8xl pb-2">
+                        <h1 className="pl-2 font-extrabold text-6xl md:text-6xl pb-2">
                           {capitalizeString(pollutant.name)}
                         </h1>
                       )}
@@ -279,7 +279,7 @@ export default function SpacingGrid({ PollutionData, aqiData }) {
                     ></div>
                     <div style={{ flex: 1, textAlign: "center" }}>
                       <h1
-                        className={`text-8xl md:text-8xl font-extrabold ${textColor}`}
+                        className={`text-6xl md:text-6xl font-extrabold ${textColor}`}
                       >
                         {pollutant.name !== "CO"
                           ? Math.ceil(pollutant.value)

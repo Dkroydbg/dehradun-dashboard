@@ -3,11 +3,14 @@ import capitalizeString from "./capitalizeString";
 import Image from "next/image";
 import Paper from "@mui/material/Paper";
 
-export default function SpacingGrid({ PollutionData, aqiData }) {
+export default function SpacingGrid({ PollutionData, aqiData, soundData }) {
   const scrollRef = React.useRef(null);
   const [pollutants, setPollutants] = React.useState([]);
 
   // let textColor = "text-black";
+
+  console.log("pollutionData");
+  console.log(PollutionData);
 
   React.useEffect(() => {
     if (PollutionData && PollutionData.length > 0) {
@@ -16,59 +19,30 @@ export default function SpacingGrid({ PollutionData, aqiData }) {
         // { name: "SO2", value: PollutionData[0]["so2model"] },
         { name: "PM10", value: PollutionData[0]["pm10cnc"] },
         { name: "CO", value: PollutionData[0]["comodel"] },
-        { name: "CO2", value: PollutionData[0]["co2conc"] },
+        // { name: "CO2", value: PollutionData[0]["co2conc"] },
         { name: "O3", value: PollutionData[0]["o3model"] },
-        { name: "TVOC", value: PollutionData[0]["tvocconc"] },
-        { name: "Temp", value: PollutionData[0]["temp"] },
-        { name: "Humid", value: PollutionData[0]["humidity"] },
+        {
+          name: "CO2/TVOC",
+          co2: PollutionData[0]["co2conc"],
+          tvoc: PollutionData[0]["tvocconc"],
+        },
+        // {
+        //   name: "CO2/TVOC",
+
+        //   tvoc: PollutionData[0]["tvocconc"],
+        // },
+        {
+          name: "Temp/Humid",
+          temp: PollutionData[0]["temp"],
+          humid: PollutionData[0]["humidity"],
+        },
+        // { name: "Humid", value: PollutionData[0]["humidity"] },
         { name: "AQI", value: aqiData },
+        { name: "Noise", value: soundData[0]["sound_db"] },
+        // { name: "logo", icon: "/dehradun.png" },
       ]);
     }
   }, [PollutionData]);
-
-  // React.useEffect(() => {
-  //   const scrollContainer = scrollRef.current;
-  //   let isScrollingDown = true;
-
-  //   const scroll = () => {
-  //     if (isScrollingDown) {
-  //       scrollContainer.scrollTo({
-  //         top: scrollContainer.scrollHeight,
-  //         behavior: "smooth",
-  //       });
-
-  //       setTimeout(() => {
-  //         isScrollingDown = false;
-  //         scroll();
-  //       }, 10000); // Pause at the bottom
-  //     } else {
-  //       scrollContainer.scrollTo({
-  //         top: 0,
-  //         behavior: "smooth",
-  //       });
-
-  //       setTimeout(() => {
-  //         isScrollingDown = true;
-  //         scroll();
-  //       }, 10000); // Pause at the top
-  //     }
-  //   };
-
-  //   scroll();
-  // }, []);
-
-  // const pollutants = [
-  //   { name: "PM2.5", value: 110 },
-  //   { name: "SO2", value: 10 },
-  //   { name: "PM10", value: 250 },
-  //   { name: "CO", value: 1 },
-  //   { name: "CO2", value: 1600 },
-  //   { name: "O3", value: 99 },
-  //   { name: "NO2", value: 456 },
-  //   { name: "Temperature", value: 25 },
-  //   { name: "Humidity", value: 78 },
-  //   { name: "AQI", value: 112 },
-  // ];
 
   return (
     <Paper
@@ -242,15 +216,54 @@ export default function SpacingGrid({ PollutionData, aqiData }) {
                     <div style={{ flex: 1, textAlign: "center" }}>
                       {/* <h1 className="pl-2 font-extrabold text-[60px] md:text-6xl mb-1"> */}
                       {pollutant.fullName}
+                      {pollutant.name === "CO2/TVOC" ? (
+                        <div>
+                          <h1 className="pl-2 font-extrabold text-6xl md:text-6xl p-4">
+                            {capitalizeString("CO2")}
+                          </h1>
+                          <h1 className="pl-2 font-extrabold text-6xl md:text-6xl p-4">
+                            TVOC
+                          </h1>
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
+                      {pollutant.name === "Temp/Humid" ? (
+                        <div>
+                          <div className="flex justify-center items-center h-full p-4">
+                            <Image
+                              src="/thermometer.png"
+                              alt="Temperature Icon"
+                              width={84}
+                              height={94}
+                              className=""
+                            />
+                          </div>
+                          <div className="flex justify-center items-center h-full p-3">
+                            <Image
+                              src="/humidity.png"
+                              alt="Humidity Icon"
+                              width={84}
+                              height={114}
+                              className=" bg-[#f7fafd] "
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
                       {pollutant.name === "Temp" ||
                       pollutant.name === "Humid" ? (
                         <h1 className="pl-1 text-3xl md:text-4xl"> </h1>
-                      ) : (
+                      ) : pollutant.name !== "CO2/TVOC" &&
+                        pollutant.name !== "Temp/Humid" ? (
                         <h1 className="pl-2 font-extrabold text-6xl md:text-6xl pb-2">
                           {capitalizeString(pollutant.name)}
                         </h1>
+                      ) : (
+                        <div></div>
                       )}
-                      {pollutant.name === "Temp" && (
+                      {/* {pollutant.name === "Temp" && (
                         <div className="flex justify-center items-center h-full">
                           <Image
                             src="/thermometer.png"
@@ -260,8 +273,8 @@ export default function SpacingGrid({ PollutionData, aqiData }) {
                             className=""
                           />
                         </div>
-                      )}
-                      {pollutant.name === "Humid" && (
+                      )} */}
+                      {/* {pollutant.name === "Humid" && (
                         <div className="flex justify-center items-center h-full">
                           <Image
                             src="/humidity.png"
@@ -271,20 +284,71 @@ export default function SpacingGrid({ PollutionData, aqiData }) {
                             className=" bg-[#f7fafd] "
                           />
                         </div>
-                      )}
+                      )} */}
                     </div>
                     <div
                       style={{ height: "calc(70vh / 3 - 16px)" }}
                       className="bg-gray-700 w-[4px] rounded-lg"
                     ></div>
                     <div style={{ flex: 1, textAlign: "center" }}>
-                      <h1
-                        className={`text-6xl md:text-6xl font-extrabold ${textColor}`}
-                      >
-                        {pollutant.name !== "CO"
-                          ? Math.ceil(pollutant.value)
-                          : pollutant.value}
-                      </h1>
+                      {pollutant.name === "CO2/TVOC" ? (
+                        <div>
+                          <h1 className="text-6xl md:text-6xl font-extrabold text-blue-600 p-4">
+                            {Math.ceil(pollutant.co2)}{" "}
+                            <span className="text-[20px] text-black">ppm</span>
+                          </h1>
+                          <h1 className="text-6xl md:text-6xl font-extrabold text-green-600 p-4">
+                            {Math.ceil(pollutant.tvoc)}{" "}
+                            <span className="text-[20px] text-black">ppb</span>
+                          </h1>
+                        </div>
+                      ) : pollutant.name === "Temp/Humid" ? (
+                        <div>
+                          <h1 className="text-6xl md:text-6xl font-extrabold text-blue-600 p-4">
+                            {pollutant.temp?.toFixed(1)}{" "}
+                          </h1>
+                          <h1 className="text-6xl md:text-6xl font-extrabold text-green-600 p-4">
+                            {pollutant.humid?.toFixed(0)}{" "}
+                          </h1>
+                        </div>
+                      ) : pollutant.name === "logo" ? (
+                        <div className="flex justify-center items-center h-full p-3">
+                          <Image
+                            src="/humidity.png"
+                            alt="Humidity Icon"
+                            width={84}
+                            height={114}
+                            className=" bg-[#f7fafd] "
+                          />
+                        </div>
+                      ) : (
+                        <h1
+                          className={`text-6xl md:text-6xl font-extrabold ${textColor}`}
+                        >
+                          {pollutant.name !== "CO"
+                            ? Math.ceil(pollutant.value)
+                            : pollutant.value}
+                        </h1>
+                      )}
+                      {/* {pollutant.name === "Temp/Humid" ? (
+                        <div>
+                          <h1 className="text-6xl md:text-6xl font-extrabold text-blue-600">
+                            {pollutant.temp}{" "}
+                          </h1>
+                          <h1 className="text-6xl md:text-6xl font-extrabold text-green-600">
+                            {pollutant.humid}{" "}
+                          </h1>
+                        </div>
+                      ) : (
+                        // <h1
+                        //   className={`text-6xl md:text-6xl font-extrabold ${textColor}`}
+                        // >
+                        //   {pollutant.name !== "CO"
+                        //     ? Math.ceil(pollutant.value)
+                        //     : pollutant.value}
+                        // </h1>
+                        <div></div>
+                      )} */}
                       {(pollutant.name === "PM2.5" ||
                         pollutant.name === "PM10" ||
                         pollutant.name === "NO2" ||
@@ -320,6 +384,28 @@ export default function SpacingGrid({ PollutionData, aqiData }) {
               </div>
             );
           })}
+          <Paper
+            sx={{
+              height: "calc(88vh / 3 - 16px)",
+              width: "90%",
+              display: "flex",
+              alignItems: "center",
+              margin: "18px 30px",
+              justifyContent: "space-between",
+              padding: "10px 10px",
+            }}
+            className="shadow-xl shadow-white rounded-3xl bg-[#f7fafd]"
+          >
+            <div className="mt-2 pl-10">
+              <Image
+                src="/dehra.png"
+                alt="Humidity Icon"
+                width={420}
+                height={234}
+                className=" bg-[#f7fafd]"
+              />
+            </div>
+          </Paper>
         </div>
       </div>
     </Paper>

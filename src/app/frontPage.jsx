@@ -6,6 +6,7 @@ import {
   fetchPollutionData,
   fetchPollutionDataOneDayAverage,
   fetchPollutionDataEightHourAverage,
+  fetchNoiseData,
 } from "./action";
 import { aqiData } from "./fetchAqi";
 import moment from "moment-timezone";
@@ -14,6 +15,7 @@ import FilledAlerts from "./alertBox";
 export default function Home() {
   const [data, setData] = useState(null);
   const [aqi, setAqi] = useState();
+  const [soundData, setSoundData] = useState();
 
   const [isDataAvailable, setIsDataAvailable] = useState(false);
 
@@ -25,6 +27,14 @@ export default function Home() {
     endDateDayAvg
   ) => {
     const pollutionData = await fetchPollutionData(startDate, endDate);
+    // console.log("pollutionData");
+    // console.log(pollutionData);
+
+    const noiseData = await fetchNoiseData(startDate, endDate);
+    setSoundData(noiseData);
+    console.log("Noise data");
+    console.log(noiseData);
+
     const oneDayAvgData = await fetchPollutionDataOneDayAverage(
       startDate24HoursAgo,
       endDateDayAvg
@@ -63,7 +73,7 @@ export default function Home() {
       // so2: total.so2model / numberOfEntries,
     };
 
-    console.log("Averages:", averagesOfOneDay);
+    // console.log("Averages:", averagesOfOneDay);
 
     const eightHourAvgData = await fetchPollutionDataEightHourAverage(
       startDate8HoursAgo,
@@ -88,24 +98,24 @@ export default function Home() {
       comodel: totalOfEgihtHour.comodel / numberOfEntriesForEgihtHourAvg,
     };
 
-    console.log("Averages of eight hour:", averagesOfEightHour);
+    // console.log("Averages of eight hour:", averagesOfEightHour);
     const pollutantsForAQI = {
       ...averagesOfOneDay,
       ...averagesOfEightHour,
     };
-    console.log("merged Averages :", pollutantsForAQI);
+    // console.log("merged Averages :", pollutantsForAQI);
     if (pollutantsForAQI) {
-      console.log("the length is greater than 0");
+      // console.log("the length is greater than 0");
       const aqiValue = aqiData(pollutantsForAQI);
-      console.log("AQI value is:");
-      console.log(aqiValue);
+      // console.log("AQI value is:");
+      // console.log(aqiValue);
       setAqi(aqiValue);
       // setData({ ...pollutionData, ...aqi });
     }
 
-    console.log("pollution data is ");
-    console.log(pollutionData);
-    console.log(oneDayAvgData);
+    // console.log("pollution data is ");
+    // console.log(pollutionData);
+    // console.log(oneDayAvgData);
     // console.log(averageOfEgihtHour);
     const validData = pollutionData.find((item) => item["pm2.5cnc"] !== "NULL");
     if (validData) {
@@ -123,8 +133,8 @@ export default function Home() {
       // Format the start date as "YYYY-MM-DDTHH:mm"
       const startDate = nowIST.subtract(1, "minute").format("YYYY-MM-DDTHH:mm");
       const endDate = nowIST.subtract(14, "minute").format("YYYY-MM-DDTHH:mm");
-      console.log("the enddate is ");
-      console.log(endDate, startDate);
+      // console.log("the enddate is ");
+      // console.log(endDate, startDate);
 
       const startDate24HoursAgo = moment(startDate)
         .subtract(24, "hours")
@@ -139,9 +149,9 @@ export default function Home() {
       const startDate8HoursAgo = moment(startDate)
         .subtract(8, "hours")
         .format("YYYY-MM-DDTHH:mm");
-      console.log("8 hours before:", startDate8HoursAgo);
+      // console.log("8 hours before:", startDate8HoursAgo);
 
-      console.log("Fetching data with startDate:", startDate);
+      // console.log("Fetching data with startDate:", startDate);
 
       // Fetch data with the startDate
       pollutionFetchFunction(
@@ -185,7 +195,7 @@ export default function Home() {
       </div> */}
       <div>
         {data ? (
-          <BasicCard PollutionData={data} aqiData={aqi} />
+          <BasicCard PollutionData={data} aqiData={aqi} soundData={soundData} />
         ) : (
           <div>
             <FilledAlerts />

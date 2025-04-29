@@ -27,3 +27,4 @@ node_modules/
 # Ignore specific files (if needed)
 
 my-secret-file.json 
+.qodo

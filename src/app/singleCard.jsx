@@ -218,10 +218,10 @@ export default function SpacingGrid({ PollutionData, aqiData, soundData }) {
                       {pollutant.fullName}
                       {pollutant.name === "CO2/TVOC" ? (
                         <div>
-                          <h1 className="pl-2 font-extrabold text-6xl md:text-6xl p-4">
+                          <h1 className="pl-2 font-[1000] 2xl:text-6xl md:text-4xl p-4">
                             {capitalizeString("CO2")}
                           </h1>
-                          <h1 className="pl-2 font-extrabold text-6xl md:text-6xl p-4">
+                          <h1 className="pl-2 font-[1000] 2xl:text-6xl md:text-4xl p-4">
                             TVOC
                           </h1>
                         </div>
@@ -230,21 +230,21 @@ export default function SpacingGrid({ PollutionData, aqiData, soundData }) {
                       )}
                       {pollutant.name === "Temp/Humid" ? (
                         <div>
-                          <div className="flex justify-center items-center h-full p-4">
+                          <div className="flex justify-center items-center h-full 2xl:p-4 xl:p-2">
                             <Image
                               src="/thermometer.png"
                               alt="Temperature Icon"
-                              width={84}
-                              height={94}
+                              width={74}
+                              height={74}
                               className=""
                             />
                           </div>
-                          <div className="flex justify-center items-center h-full p-3">
+                          <div className="flex justify-center items-center h-full 2xl:p-4 xl:p-2">
                             <Image
                               src="/humidity.png"
                               alt="Humidity Icon"
-                              width={84}
-                              height={114}
+                              width={74}
+                              height={74}
                               className=" bg-[#f7fafd] "
                             />
                           </div>
@@ -254,10 +254,10 @@ export default function SpacingGrid({ PollutionData, aqiData, soundData }) {
                       )}
                       {pollutant.name === "Temp" ||
                       pollutant.name === "Humid" ? (
-                        <h1 className="pl-1 text-3xl md:text-4xl"> </h1>
+                        <h1 className="pl-1 2xl:text-6xl md:text-4xl"> </h1>
                       ) : pollutant.name !== "CO2/TVOC" &&
                         pollutant.name !== "Temp/Humid" ? (
-                        <h1 className="pl-2 font-extrabold text-6xl md:text-6xl pb-2">
+                        <h1 className="pl-2 font-extrabold 2xl:text-6xl md:text-4xl pb-2">
                           {capitalizeString(pollutant.name)}
                         </h1>
                       ) : (
@@ -293,21 +293,23 @@ export default function SpacingGrid({ PollutionData, aqiData, soundData }) {
                     <div style={{ flex: 1, textAlign: "center" }}>
                       {pollutant.name === "CO2/TVOC" ? (
                         <div>
-                          <h1 className="text-6xl md:text-6xl font-extrabold text-blue-600 p-4">
+                          <h1 className="2xl:text-6xl md:text-4xl font-extrabold text-blue-600 p-4">
                             {Math.ceil(pollutant.co2)}{" "}
                             <span className="text-[20px] text-black">ppm</span>
                           </h1>
-                          <h1 className="text-6xl md:text-6xl font-extrabold text-green-600 p-4">
+                          <h1 className="2xl:text-6xl md:text-4xl font-extrabold text-green-600 p-4">
                             {Math.ceil(pollutant.tvoc)}{" "}
-                            <span className="text-[20px] text-black">ppb</span>
+                            <span className="2xl:text-[20px] xl:text-[15px] text-black">
+                              ppb
+                            </span>
                           </h1>
                         </div>
                       ) : pollutant.name === "Temp/Humid" ? (
                         <div>
-                          <h1 className="text-6xl md:text-6xl font-extrabold text-blue-600 p-4">
+                          <h1 className="text-6xl md:text-4xl font-extrabold text-blue-600 p-4">
                             {pollutant.temp?.toFixed(1)}{" "}
                           </h1>
-                          <h1 className="text-6xl md:text-6xl font-extrabold text-green-600 p-4">
+                          <h1 className="text-6xl md:text-4xl font-extrabold text-green-600 p-4">
                             {pollutant.humid?.toFixed(0)}{" "}
                           </h1>
                         </div>
@@ -323,7 +325,7 @@ export default function SpacingGrid({ PollutionData, aqiData, soundData }) {
                         </div>
                       ) : (
                         <h1
-                          className={`text-6xl md:text-6xl font-extrabold ${textColor}`}
+                          className={`text-6xl md:text-4xl font-extrabold ${textColor}`}
                         >
                           {pollutant.name !== "CO"
                             ? Math.ceil(pollutant.value)

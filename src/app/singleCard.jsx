@@ -33,7 +33,7 @@ export default function SpacingGrid({ PollutionData, aqiData, soundData }) {
         // },
         {
           name: "Temp/Humid",
-          temp: PollutionData[0]["temp"],
+          temp: 0.421 * PollutionData[0]["temp"] + 15.15,
           humid: PollutionData[0]["humidity"],
         },
         // { name: "Humid", value: PollutionData[0]["humidity"] },
